@@ -1,0 +1,62 @@
+const Web3 = require('web3');
+
+// Variables
+
+const privkey = '';
+const addressFrom = '0x156a40aaa3d44E046BC5C50B9Ba596844051e68c';
+const addressTo = '0x156a40aaa3d44E046BC5C50B9Ba596844051e68c';
+const web3 = new Web3('https://kovan.infura.io/v3/');
+
+
+// 트랜잭션 A=>A Send[Hexdata]
+var 낑0 = 'Testing Kovan Example\n\n';
+
+var G1 = `1`;
+var G2 = `2021-10-22`;
+var G3 = `13:45`;
+var G4 = `2021-10-25`;
+var G5 = `14:45`;
+var G6 = `Jay`;
+var G7 = `블록체인의 미래는 ?`;
+var G8 = `망한다`;
+var G9 = `25%`;
+var G10 = `2,500`;
+var G11 = `흥한다`;
+var G12 = `75%`;
+var G13 = `7,500`;
+
+/*Ex 
+Cratos Num : 13
+Open Vote :  2021-10-22 | 13:45 UTC-9,  Closed Vote: 2021-10-25 | 14:45 UTC-9
+Nickname : Jay
+Title : 블록체인의 미래는?'
+Percent : 망한다 2,500(25.00%) vs 흥한다 7,500(75.00%)
+Participated : 10,000 User
+*/
+
+let hexdata = Web3.utils.utf8ToHex(`${낑0}Cratos No.${G1}\nOpen Vote :${G2} | ${G3}, Closed Vote :${G4} | ${G5} UTC-9\nNickname :${G6}\nTitle :${G7}\nPercent :${G8} ${G9}(${G10}) vs ${G11} ${G12}(${G13})\n\n★User made 낑낑.inc★ `);
+
+
+
+const deploy = async () => {
+    console.log(
+        `실행 from ${addressFrom} to ${addressTo}`
+    );
+
+    const createTransaction = await web3.eth.accounts.signTransaction(
+        {
+            from: addressFrom,
+            to: addressTo,
+            value: web3.utils.toWei('0','ether'),
+            data: hexdata,
+            gas: '10000000',
+        }, privkey);
+        
+        const createReceipt = await web3.eth.sendSignedTransaction(
+            createTransaction.rawTransaction
+        );
+        console.log(`성공 ${createReceipt.transactionHash}` );
+
+        };
+
+deploy();
